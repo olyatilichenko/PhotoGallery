@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		647E594E20692B960071D296 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E594D20692B960071D296 /* MapViewController.swift */; };
+		647E595020699E8F0071D296 /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E594F20699E8F0071D296 /* PermissionsViewController.swift */; };
 		6484AA4920683E7B00D92F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6484AA4820683E7B00D92F29 /* AppDelegate.swift */; };
 		6484AA4E20683E7B00D92F29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6484AA4C20683E7B00D92F29 /* Main.storyboard */; };
 		6484AA5020683E7B00D92F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6484AA4F20683E7B00D92F29 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		647E594D20692B960071D296 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		647E594F20699E8F0071D296 /* PermissionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsViewController.swift; sourceTree = "<group>"; };
 		6484AA4520683E7B00D92F29 /* PhotoGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6484AA4820683E7B00D92F29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6484AA4D20683E7B00D92F29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				6484AA6020686BF600D92F29 /* MyCellCollectionViewCell.swift */,
 				6484AA6220686E5000D92F29 /* GalleryViewController.swift */,
 				647E594D20692B960071D296 /* MapViewController.swift */,
+				647E594F20699E8F0071D296 /* PermissionsViewController.swift */,
 			);
 			path = PhotoGallery;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 				6484AA4920683E7B00D92F29 /* AppDelegate.swift in Sources */,
 				647E594E20692B960071D296 /* MapViewController.swift in Sources */,
 				6484AA5B206867A900D92F29 /* DetailsViewController.swift in Sources */,
+				647E595020699E8F0071D296 /* PermissionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
