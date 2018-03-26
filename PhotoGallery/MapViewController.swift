@@ -15,14 +15,22 @@ class MapViewController: UIViewController {
     var assetCollection: PHAssetCollection!
     var photosAsset: PHFetchResult<PHAsset>!
     var index: Int = 0
+    let regionRadius: CLLocationDistance = 1000
+    var coordinate: CLLocation!
     
     
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        coordinate = self.photosAsset[self.index].location
+        centerMapOnLocation(location: coordinate)
+    }
+    
+    func centerMapOnLocation(location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
+                                                                  regionRadius, regionRadius)
+        mapView.setRegion(coordinateRegion, animated: true)
     }
 
     override func didReceiveMemoryWarning() {

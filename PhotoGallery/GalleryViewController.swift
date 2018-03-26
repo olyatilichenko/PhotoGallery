@@ -149,33 +149,6 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "showDetail") {
-            if let controller: DetailsViewController = segue.destination as? DetailsViewController{
-                if let cell = sender as? UICollectionViewCell{
-                    if let indexPath: IndexPath = self.collectionView!.indexPath(for: cell) {
-                        controller.index = indexPath.item
-                        controller.photosAsset = self.photosAsset
-                        controller.assetCollection = self.assetCollection
-                    }
-                }
-                }
-            }
-        if(segue.identifier == "showMap") {
-            if let controller: MapViewController = segue.destination as? MapViewController{
-                if let cell = sender as? UICollectionViewCell{
-                    if let indexPath: IndexPath = self.collectionView!.indexPath(for: cell) {
-                        controller.index = indexPath.item
-                        controller.photosAsset = self.photosAsset
-                        controller.assetCollection = self.assetCollection
-                    }
-                }
-            }
-        }
-    }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath);
@@ -183,7 +156,9 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
         alert.addAction(UIAlertAction(title: "Details", style: .default, handler: {_ in
             self.performSegue(withIdentifier: "showDetail", sender: cell)
         }))
-        alert.addAction(UIAlertAction(title: "Map", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Map", style: .default, handler: {_ in
+            self.performSegue(withIdentifier: "showMap", sender: cell)
+        }))
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler:
             {(alertAction)in
                 PHPhotoLibrary.shared().performChanges({
@@ -204,6 +179,33 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
                 })
             }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "showDetail") {
+            if let controller: DetailsViewController = segue.destination as? DetailsViewController{
+                if let cell = sender as? UICollectionViewCell{
+                    if let indexPath: IndexPath = self.collectionView!.indexPath(for: cell) {
+                        controller.index = indexPath.item
+                        controller.photosAsset = self.photosAsset
+                        controller.assetCollection = self.assetCollection
+                    }
+                }
+            }
+        }
+        if(segue.identifier == "showMap") {
+            if let controller: MapViewController = segue.destination as? MapViewController{
+                if let cell = sender as? UICollectionViewCell{
+                    if let indexPath: IndexPath = self.collectionView!.indexPath(for: cell) {
+                        controller.index = indexPath.item
+                        controller.photosAsset = self.photosAsset
+                        controller.assetCollection = self.assetCollection
+                    }
+                }
+            }
+        }
     }
 }
 
