@@ -14,7 +14,7 @@ class MapViewController: UIViewController {
     
     var assetCollection: PHAssetCollection!
     var photosAsset: PHFetchResult<PHAsset>!
-    var index: Int = 0
+    var index: Int!
     let regionRadius: CLLocationDistance = 1000
     var coordinate: CLLocation!
     
@@ -23,8 +23,10 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        coordinate = self.photosAsset[self.index].location
-        centerMapOnLocation(location: coordinate)
+        coordinate = self.photosAsset[self.index!].location
+        print(self.photosAsset[self.index!])
+        print(coordinate)
+        //centerMapOnLocation(location: coordinate)
     }
     
     func centerMapOnLocation(location: CLLocation) {

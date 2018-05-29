@@ -8,11 +8,12 @@
 
 import UIKit
 import Photos
+import MobileCoreServices
 
 private let reuseIdentifier = "Cell"
 let albumName = "MyApp"
 
-class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
+class GalleryViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     
     var assetCollection: PHAssetCollection!
     var photosAsset: PHFetchResult<PHAsset>!
@@ -26,9 +27,9 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
         let fetchOptions = PHFetchOptions()
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumName)
         
-        let collection:PHFetchResult = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
+        let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         
-        if(collection.firstObject != nil){
+        if collection.firstObject != nil {
             //found the album
             self.albumFound = true
             self.assetCollection = collection.firstObject
@@ -63,20 +64,21 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
         }
         
         //fetch the photos from collection
-        if(assetCollection != nil ) {//!! Use optional chaining
-        self.photosAsset = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
+        if assetCollection != nil  {//!! Use optional chaining
+            self.photosAsset = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
         }
         
         self.collectionView?.reloadData()
     }
 
     @IBAction func cameraShow(_ sender: Any) {
-        if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)){
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
             //load the camera interface
-            let picker : UIImagePickerController = UIImagePickerController()
+            let picker = UIImagePickerController()
             picker.sourceType = UIImagePickerControllerSourceType.camera
-            picker.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
-            picker.allowsEditing = false
+            picker.delegate = self
+            picker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+            picker.videoQuality = .typeHigh
             self.present(picker, animated: true, completion: nil)
         }else{
             //no camera available
@@ -87,22 +89,16 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count: Int = 0
-        if(self.photosAsset != nil){
+        if self.photosAsset != nil {
             count = self.photosAsset.count
         }
         return count;
@@ -111,9 +107,7 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyCellCollectionViewCell
     
-        // Configure the cell
-    
-        let asset: PHAsset = self.photosAsset[indexPath.item]
+        let asset = self.photosAsset[indexPath.item]
         PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil, resultHandler: {(result, info)in
             if let image = result {
                 cell.setImage(image)
@@ -124,41 +118,24 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
 
     // MARK: UICollectionViewDelegate
 
-    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
-        NSLog("in didFinishPickingMediaWithInfo")
-        if let image: UIImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
-            
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
-                PHPhotoLibrary.shared().performChanges({
-                    let createAssetRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-                    let assetPlaceholder = createAssetRequest.placeholderForCreatedAsset
-                    if let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection, assets: self.photosAsset) {
-                        albumChangeRequest.addAssets([assetPlaceholder!] as NSArray)
-                    }
-                }, completionHandler: {(success, error)in
-                    DispatchQueue.main.async(execute: {
-                        NSLog("Adding Image to Library -> %@", (success ? "Sucess":"Error!"))
-                        picker.dismiss(animated: true, completion: nil)
-                    })
-                })
-                
-            })
-        }
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
-        picker.dismiss(animated: true, completion: nil)
-    }
-
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath);
+        let cell = collectionView.cellForItem(at: indexPath)
         let alert = UIAlertController(title: "Actions:", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Details", style: .default, handler: {_ in
-            self.performSegue(withIdentifier: "showDetail", sender: cell)
+            let asset =  self.photosAsset[indexPath.item]
+            if asset.mediaType == .image {
+                self.performSegue(withIdentifier: "showDetailPhoto", sender: cell)
+            }
+            if asset.mediaType == .video {
+                self.performSegue(withIdentifier: "showDetailVideo", sender: cell)
+            }
+            
         }))
         alert.addAction(UIAlertAction(title: "Map", style: .default, handler: {_ in
             self.performSegue(withIdentifier: "showMap", sender: cell)
         }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {_ in
+            alert.dismiss(animated: true, completion: nil)}))
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler:
             {(alertAction)in
                 PHPhotoLibrary.shared().performChanges({
@@ -184,7 +161,7 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "showDetail") {
+        if segue.identifier == "showDetailPhoto"  {
             if let controller: DetailsViewController = segue.destination as? DetailsViewController{
                 if let cell = sender as? UICollectionViewCell{
                     if let indexPath: IndexPath = self.collectionView!.indexPath(for: cell) {
@@ -195,10 +172,10 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
                 }
             }
         }
-        if(segue.identifier == "showMap") {
+        if segue.identifier == "showMap" {
             if let controller: MapViewController = segue.destination as? MapViewController{
                 if let cell = sender as? UICollectionViewCell{
-                    if let indexPath: IndexPath = self.collectionView!.indexPath(for: cell) {
+                    if let indexPath = self.collectionView!.indexPath(for: cell) {
                         controller.index = indexPath.item
                         controller.photosAsset = self.photosAsset
                         controller.assetCollection = self.assetCollection
@@ -206,6 +183,63 @@ class GalleryViewController: UICollectionViewController, UIActionSheetDelegate {
                 }
             }
         }
+        if segue.identifier == "showDetailVideo" {
+            if let controller: VideoDetailViewController = segue.destination as? VideoDetailViewController{
+                if let cell = sender as? UICollectionViewCell{
+                    if let indexPath = self.collectionView?.indexPath(for: cell) {
+                        controller.index = indexPath.item
+                        controller.photosAsset = self.photosAsset
+                        controller.assetCollection = self.assetCollection
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - UIImagePickerControllerDelegate
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
+        
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            DispatchQueue.global().async(execute: {
+                PHPhotoLibrary.shared().performChanges({
+                    let createAssetRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+                    let assetPlaceholder = createAssetRequest.placeholderForCreatedAsset
+                    if let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection, assets: self.photosAsset) {
+                        albumChangeRequest.addAssets([assetPlaceholder!] as NSArray)
+                    }
+                }, completionHandler: {(success, error)in
+                    DispatchQueue.main.async(execute: {
+                        print("Adding Image to Library -> %@", (success ? "Sucess":"Error!"))
+                        picker.dismiss(animated: true, completion: nil)
+                    })
+                })
+                
+            })
+        }
+        
+        if let videoUrl = info[UIImagePickerControllerMediaURL] as? NSURL {
+            
+            DispatchQueue.global().async(execute: {
+                PHPhotoLibrary.shared().performChanges({
+                    let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl as URL)
+                    let assetPlaceholder = assetRequest?.placeholderForCreatedAsset
+                    if let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection, assets: self.photosAsset) {
+                        albumChangeRequest.addAssets([assetPlaceholder!] as NSArray)
+                    }
+                }, completionHandler: { (success, error) in
+                    DispatchQueue.main.async(execute: {
+                        print("Adding Video to Library -> %@", (success ? "Sucess":"Error!"))
+                        picker.dismiss(animated: true, completion: nil)
+                    })
+                })
+            })
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
