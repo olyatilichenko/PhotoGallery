@@ -26,11 +26,6 @@ class DetailsViewController: UIViewController, UITextFieldDelegate {
         self.displayPhoto()
     }
     
-    override func viewWillAppear(_ animated: Bool)
-    {
-        super.viewWillAppear(animated)
-    }
-    
     // MARK: - Actions
     
     @IBAction func editWithText(_ sender: Any) {
@@ -46,7 +41,6 @@ class DetailsViewController: UIViewController, UITextFieldDelegate {
         }
         recognizer.setTranslation(CGPoint.zero, in: self.view)
     }
-    
     
     @IBAction func handlePinch(recognizer: UIPinchGestureRecognizer){
         if let view = recognizer.view {

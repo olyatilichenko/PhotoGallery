@@ -23,20 +23,19 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //Check if the folder exist, if not, create it
         let fetchOptions = PHFetchOptions()
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumName)
         
         let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         
         if collection.firstObject != nil {
-            //found the album
+
             self.albumFound = true
             self.assetCollection = collection.firstObject
         }else{
-            //Album placeholder for the asset collection, used to reference collection in completion handler
+     
             var albumPlaceholder:PHObjectPlaceholder!
-            //create the folder
+
             NSLog("\nFolder \"%@\" does not exist\nCreating now...", albumName)
             PHPhotoLibrary.shared().performChanges({
                 let request = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumName)
@@ -57,13 +56,12 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // Get size of the collectionView cell for thumbnail image
+
         if let layout = self.collectionView?.collectionViewLayout as? UICollectionViewFlowLayout{
             let cellSize = layout.itemSize
             self.assetThumbnailSize = CGSize(width: cellSize.width, height: cellSize.height)
         }
         
-        //fetch the photos from collection
         if assetCollection != nil  {
             self.photosAsset = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
         }
@@ -72,7 +70,7 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
 
     @IBAction func cameraShow(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.camera){
-            //load the camera interface
+
             let picker = UIImagePickerController()
             picker.sourceType = UIImagePickerControllerSourceType.camera
             picker.delegate = self
@@ -80,7 +78,7 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
             picker.videoQuality = .typeHigh
             self.present(picker, animated: true, completion: nil)
         } else{
-            //no camera available
+
             let alert = UIAlertController(title: "Error", message: "There is no camera available", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {(alertAction)in
                 alert.dismiss(animated: true, completion: nil)
@@ -160,6 +158,7 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "showDetailPhoto"  {
             if let controller: DetailsViewController = segue.destination as? DetailsViewController{
                 if let cell = sender as? UICollectionViewCell{
@@ -171,6 +170,7 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
                 }
             }
         }
+        
         if segue.identifier == "showMap" {
             if let controller: MapViewController = segue.destination as? MapViewController{
                 if let cell = sender as? UICollectionViewCell{
@@ -182,6 +182,7 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
                 }
             }
         }
+        
         if segue.identifier == "showDetailVideo" {
             if let controller: VideoDetailViewController = segue.destination as? VideoDetailViewController{
                 if let cell = sender as? UICollectionViewCell{

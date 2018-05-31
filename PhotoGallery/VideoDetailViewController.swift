@@ -92,7 +92,6 @@ class VideoDetailViewController: UIViewController, UITextFieldDelegate {
         recognizer.setTranslation(CGPoint.zero, in: self.view)
     }
     
-    
     @IBAction func handlePinch(recognizer: UIPinchGestureRecognizer) {
         if let view = recognizer.view {
             view.transform = view.transform.scaledBy(x: recognizer.scale, y: recognizer.scale)
