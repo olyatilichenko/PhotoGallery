@@ -12,9 +12,9 @@ import AVFoundation
 
 class PermissionsViewController: UIViewController, CLLocationManagerDelegate {
     
-    var locationManager: CLLocationManager!
-    var authStatusloc =  CLLocationManager.authorizationStatus()
-    var authStatusCam =  AVCaptureDevice.authorizationStatus(for: .video)
+    var locationManager : CLLocationManager!
+    var authStatusloc = CLLocationManager.authorizationStatus()
+    var authStatusCam = AVCaptureDevice.authorizationStatus(for: .video)
 
     @IBAction func locationButton(_ sender: Any) {
         locationManager = CLLocationManager()
@@ -36,7 +36,6 @@ class PermissionsViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         showGallery()
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

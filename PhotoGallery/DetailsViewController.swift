@@ -64,41 +64,45 @@ class DetailsViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func saveImage() {
 
-        guard let size = size else {
-            return
-        }
-        UIGraphicsBeginImageContext(size.size)
-        guard let image = imageViewDetails.image else {
-            return
-        }
-        image.draw(in: size)
-        newImageView.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let imageWithText = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        self.imageViewDetails.image = imageWithText
-        
+        guard let image = imageByCombiningImage() else { return }
+
         textField.isHidden = true
         DispatchQueue.global().async(execute: {
             PHPhotoLibrary.shared().performChanges({
-                let createAssetRequest = PHAssetChangeRequest.creationRequestForAsset(from: imageWithText!)
+                let createAssetRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
                 let assetPlaceholder = createAssetRequest.placeholderForCreatedAsset
                 if let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection, assets: self.photosAsset) {
                     albumChangeRequest.addAssets([assetPlaceholder!] as NSArray)
                 }
             }, completionHandler: {(success, error)in
                 DispatchQueue.main.async(execute: {
-                    print("Adding Image to Library -> %@", (success ? "Sucess":"Error!"))
+                    print("Adding image to Library -> %@", (success ? "Sucess":"Error!"))
                 })
             })
         })
+    }
+    
+    func imageByCombiningImage() -> UIImage? {
+        
+        guard let size = size else { return nil }
+        
+        UIGraphicsBeginImageContext(size.size)
+        let y = (imageViewDetails.frame.size.height - size.size.height)/2
+        UIGraphicsGetCurrentContext()?.translateBy(x: 0, y: -y)
+        imageViewDetails.image?.draw(in: size)
+        newImageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let imageWithText = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.imageViewDetails.image = imageWithText
+        return imageWithText
     }
     
     func displayPhoto() {
 
         let imageManager = PHImageManager.default()
         imageManager.requestImage(for: self.photosAsset[self.index], targetSize: imageViewDetails.frame.size, contentMode: .aspectFit, options: nil, resultHandler: {
-            (result, info)->Void in
+            (result, info) -> Void in
             self.imageViewDetails.image = result
         })
         guard let image = self.imageViewDetails.image else { return }

@@ -64,10 +64,9 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
         }
         
         //fetch the photos from collection
-        if assetCollection != nil  {//!! Use optional chaining
+        if assetCollection != nil  {
             self.photosAsset = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
         }
-        
         self.collectionView?.reloadData()
     }
 
@@ -80,7 +79,7 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
             picker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
             picker.videoQuality = .typeHigh
             self.present(picker, animated: true, completion: nil)
-        }else{
+        } else{
             //no camera available
             let alert = UIAlertController(title: "Error", message: "There is no camera available", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {(alertAction)in
@@ -164,7 +163,7 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
         if segue.identifier == "showDetailPhoto"  {
             if let controller: DetailsViewController = segue.destination as? DetailsViewController{
                 if let cell = sender as? UICollectionViewCell{
-                    if let indexPath: IndexPath = self.collectionView!.indexPath(for: cell) {
+                    if let indexPath = self.collectionView!.indexPath(for: cell) {
                         controller.index = indexPath.item
                         controller.photosAsset = self.photosAsset
                         controller.assetCollection = self.assetCollection
@@ -194,6 +193,10 @@ class GalleryViewController: UICollectionViewController, UIImagePickerController
                 }
             }
         }
+    }
+    
+    func configureNewViewController(_ controller: UIViewController, _ cell: UICollectionViewCell) {
+        
     }
     
     // MARK: - UIImagePickerControllerDelegate

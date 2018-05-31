@@ -17,6 +17,7 @@
 		6484AA6120686BF600D92F29 /* MyCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6484AA6020686BF600D92F29 /* MyCellCollectionViewCell.swift */; };
 		6484AA6320686E5000D92F29 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6484AA6220686E5000D92F29 /* GalleryViewController.swift */; };
 		6484AA662068717200D92F29 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6484AA652068717200D92F29 /* Photos.framework */; };
+		7735341320BEDF390000B2D9 /* Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7735341220BEDF390000B2D9 /* Merge.swift */; };
 		774FC4C220B847C1002A98E5 /* VideoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774FC4C120B847C1002A98E5 /* VideoDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		6484AA6020686BF600D92F29 /* MyCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		6484AA6220686E5000D92F29 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		6484AA652068717200D92F29 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		7735341220BEDF390000B2D9 /* Merge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Merge.swift; sourceTree = "<group>"; };
 		774FC4C120B847C1002A98E5 /* VideoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,15 +72,16 @@
 			children = (
 				6484AA4820683E7B00D92F29 /* AppDelegate.swift */,
 				6484AA4C20683E7B00D92F29 /* Main.storyboard */,
-				6484AA4F20683E7B00D92F29 /* Assets.xcassets */,
 				6484AA5120683E7B00D92F29 /* LaunchScreen.storyboard */,
-				6484AA5420683E7B00D92F29 /* Info.plist */,
 				647E594F20699E8F0071D296 /* PermissionsViewController.swift */,
 				6484AA6220686E5000D92F29 /* GalleryViewController.swift */,
 				6484AA6020686BF600D92F29 /* MyCellCollectionViewCell.swift */,
-				647E594D20692B960071D296 /* MapViewController.swift */,
 				6484AA5A206867A900D92F29 /* DetailsViewController.swift */,
 				774FC4C120B847C1002A98E5 /* VideoDetailViewController.swift */,
+				7735341220BEDF390000B2D9 /* Merge.swift */,
+				647E594D20692B960071D296 /* MapViewController.swift */,
+				6484AA5420683E7B00D92F29 /* Info.plist */,
+				6484AA4F20683E7B00D92F29 /* Assets.xcassets */,
 			);
 			path = PhotoGallery;
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 				6484AA4920683E7B00D92F29 /* AppDelegate.swift in Sources */,
 				647E594E20692B960071D296 /* MapViewController.swift in Sources */,
 				6484AA5B206867A900D92F29 /* DetailsViewController.swift in Sources */,
+				7735341320BEDF390000B2D9 /* Merge.swift in Sources */,
 				647E595020699E8F0071D296 /* PermissionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

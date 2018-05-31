@@ -26,13 +26,13 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pfo-oJ-eFF">
-                                        <rect key="frame" x="0.0" y="252" width="375" height="55"/>
+                                    <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="80" translatesAutoresizingMaskIntoConstraints="NO" id="Pfo-oJ-eFF">
+                                        <rect key="frame" x="0.0" y="229" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <gestureRecognizers/>
                                         <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="80"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="cd5-l5-0Ii" appends="YES" id="zls-0g-Ks0"/>
@@ -94,11 +94,11 @@
         <scene sceneID="tJr-CU-oMC">
             <objects>
                 <viewController title="Details" id="klV-oy-2kT" customClass="VideoDetailViewController" customModule="PhotoGallery" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="imm-oq-KQ4">
+                    <view key="view" contentMode="scaleToFill" id="imm-oq-KQ4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Htg-Fo-NOT">
+                            <view contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Htg-Fo-NOT">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -106,20 +106,27 @@
                                         <rect key="frame" x="-2" y="8" width="379" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </slider>
-                                    <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oD6-f3-cD0">
-                                        <rect key="frame" x="0.0" y="252" width="375" height="55"/>
+                                    <view contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xPz-Sv-rJx">
+                                        <rect key="frame" x="0.0" y="-68" width="375" height="667"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="80" translatesAutoresizingMaskIntoConstraints="NO" id="oD6-f3-cD0">
+                                                <rect key="frame" x="0.0" y="229" width="375" height="100"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <gestureRecognizers/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="80"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="ssi-Zn-K9u" appends="YES" id="lCa-F9-8ff"/>
+                                                    <outletCollection property="gestureRecognizers" destination="6pv-de-IAg" appends="YES" id="ayh-ot-DLX"/>
+                                                    <outletCollection property="gestureRecognizers" destination="Bds-4g-bPC" appends="YES" id="dvJ-04-wKN"/>
+                                                </connections>
+                                            </textField>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <gestureRecognizers/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="Bds-4g-bPC" appends="YES" id="dvJ-04-wKN"/>
-                                            <outletCollection property="gestureRecognizers" destination="ssi-Zn-K9u" appends="YES" id="lCa-F9-8ff"/>
-                                            <outletCollection property="gestureRecognizers" destination="6pv-de-IAg" appends="YES" id="ayh-ot-DLX"/>
-                                        </connections>
-                                    </textField>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -147,7 +154,8 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="playerSlider" destination="951-aH-Hb5" id="bNN-Xu-dZf"/>
-                        <outlet property="textField" destination="oD6-f3-cD0" id="uQU-ro-2ki"/>
+                        <outlet property="textField" destination="oD6-f3-cD0" id="35Q-Y5-4Bg"/>
+                        <outlet property="textView" destination="xPz-Sv-rJx" id="fNf-Q8-Jbp"/>
                         <outlet property="videoView" destination="Htg-Fo-NOT" id="5jS-58-AjZ"/>
                     </connections>
                 </viewController>
